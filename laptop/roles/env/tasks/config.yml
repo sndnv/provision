@@ -1,0 +1,35 @@
+- name: Add extra .bashrc config
+  blockinfile:
+    path: "{{ target_user_home_directory }}/.bashrc"
+    create: yes
+    insertafter: EOF
+    block: |
+      {{ extra_bashrc_lines }}
+    mode: 0644
+
+- name: Add extra .profile config
+  blockinfile:
+    path: "{{ target_user_home_directory }}/.profile"
+    create: yes
+    insertafter: EOF
+    block: |
+      {{ extra_profile_lines }}
+    mode: 0644
+
+- name: Add extra .vimrc config
+  blockinfile:
+    path: "{{ target_user_home_directory }}/.vimrc"
+    create: yes
+    insertafter: EOF
+    marker: "\" {mark} ANSIBLE MANAGED BLOCK"
+    block: |
+      {{ extra_vimrc_lines }}
+    mode: 0644
+
+- name: Add .gitconfig
+  template:
+    src: gitconfig.j2
+    dest: "{{ target_user_home_directory }}/.gitconfig"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    mode: 0644

@@ -1,0 +1,16 @@
+- include: repos.yml
+
+- include: config.yml
+
+- include: fixes.yml
+
+- include: nas.yml
+
+- include: hdd_crypttab.yml
+  when: (secondary_volume_type == 'data') or (secondary_volume_type == 'home')
+
+- include: hdd_data.yml
+  when: secondary_volume_type == 'data'
+
+- include: hdd_home.yml
+  when: secondary_volume_type == 'home'

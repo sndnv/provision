@@ -1,0 +1,37 @@
+- name: Query partition UUIDs
+  become: yes
+  shell: "blkid {{ secondary_encrypted_volume_partition }} -o value -s UUID"
+  register: blkid_output
+
+- name: Get secondary volume partition UUID
+  set_fact:
+    secondary_volume_partition_uuid: "{{ blkid_output.stdout }}"
+
+- name: Create LUKS key for secondary device
+  become: yes
+  shell: "dd if=/dev/urandom of={{ secondary_encrypted_volume_keyfile }} bs=1024 count=4"
+
+- name: Set LUKS key permissions
+  become: yes
+  file:
+    path: "{{ secondary_encrypted_volume_keyfile }}"
+    owner: root
+    group: root
+    mode: 0400
+
+- name: Open secondary volume partition
+  become: yes
+  shell: "cryptsetup luksOpen {{ secondary_encrypted_volume_partition }} {{ secondary_volume_name }} --key-file {{ encryption_keyfile }}"
+
+- name: Add LUKS key
+  become: yes
+  shell: "cryptsetup luksAddKey {{ secondary_encrypted_volume_partition }} {{ secondary_encrypted_volume_keyfile }} --key-file {{ encryption_keyfile }}"
+
+- name: Update crypttab with secondary encrypted volume
+  become: yes
+  blockinfile:
+    path: "/etc/crypttab"
+    create: yes
+    insertafter: EOF
+    block: |
+      {{ secondary_volume_name }} UUID={{ secondary_volume_partition_uuid }} {{ secondary_encrypted_volume_keyfile }} luks,discard

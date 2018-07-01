@@ -1,0 +1,54 @@
+# Based on https://help.ubuntu.com/community/Partitioning/Home/Moving
+
+- name: Create temporary home directory
+  become: yes
+  file:
+    path: "{{ temporary_home_mount }}"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    state: directory
+
+- name: Mount temporary home directory
+  become: yes
+  mount:
+    path: "{{ temporary_home_mount }}"
+    src: "/dev/mapper/{{ secondary_volume_name }}"
+    fstype: auto
+    state: mounted
+
+- name: Synchronize /home with {{ temporary_home_mount }}
+  become: yes
+  synchronize:
+    src: "/home/."
+    dest: "{{ temporary_home_mount }}/."
+    rsync_opts:
+      - "-aXS"
+      - "--exclude='/*/.gvfs'"
+
+- name: Dismount temporary home directory
+  become: yes
+  mount:
+    path: "{{ temporary_home_mount }}"
+    src: "/dev/mapper/{{ secondary_volume_name }}"
+    fstype: auto
+    state: absent
+
+- name: Remove current /home
+  become: yes
+  file:
+    path: "/home"
+    state: absent
+
+- name: Create empty /home
+  become: yes
+  file:
+    path: "/home"
+    state: present
+
+- name: Update home directory entry
+  become: yes
+  mount:
+    path: "/home"
+    src: "/dev/mapper/{{ secondary_volume_name }}"
+    fstype: auto
+    state: mounted

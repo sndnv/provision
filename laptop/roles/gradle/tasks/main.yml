@@ -1,0 +1,14 @@
+- name: Add gradle repo
+  become: yes
+  apt_repository:
+    repo: ppa:cwchien/gradle
+
+- name: Update apt cache
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: Install gradle
+  become: yes
+  apt: pkg=gradle
+

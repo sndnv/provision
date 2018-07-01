@@ -1,0 +1,25 @@
+- name: Create HDD mount directory
+  become: yes
+  file:
+    path: "/mnt/{{ secondary_volume_name }}"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    state: directory
+
+- name: Mount HDD filesystem
+  become: yes
+  mount:
+    path: "/mnt/{{ secondary_volume_name }}"
+    src: "/dev/mapper/{{ secondary_volume_name }}"
+    fstype: auto
+    opts: nosuid,nodev
+    state: mounted
+
+- name: Create link to hdd data
+  become: yes
+  file:
+    src: "/mnt/{{ secondary_volume_name }}"
+    dest: "{{ target_user_home_directory }}/data"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    state: link

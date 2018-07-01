@@ -1,0 +1,6 @@
+- name: Create repos directory
+  file:
+    path: "{{ target_user_home_directory }}/repos"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    state: directory

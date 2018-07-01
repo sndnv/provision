@@ -1,0 +1,21 @@
+- name: Create encrypted volume on {{ primary_volume_target }}
+  become: yes
+  shell: "cryptsetup luksFormat --batch-mode --hash={{ hash }} --key-size={{ key_size }} --cipher={{ cipher }} {{ primary_volume_target }} --key-file {{ encryption_keyfile }}"
+
+- name: Open volume {{ primary_volume_target }} as {{ primary_volume_name }}
+  become: yes
+  shell: "cryptsetup luksOpen {{ primary_volume_target }} {{ primary_volume_name }} --key-file {{ encryption_keyfile }}"
+
+- name: Query partition UUIDs
+  become: yes
+  shell: "blkid {{ primary_volume_target }} -o value -s UUID"
+  register: blkid_output
+
+- name: Get primary volume partition UUID
+  set_fact:
+
+- name: Set facts for primary volume {{ primary_volume_name }}
+  set_fact:
+    primary_encrypted_volume: "/dev/mapper/{{ primary_volume_name }}"
+    primary_encrypted_volume_name: "{{ primary_volume_name }}"
+    primary_encrypted_volume_partition_uuid: "{{ blkid_output.stdout }}"

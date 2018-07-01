@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+mount -t proc proc /proc
+mount -t sysfs sys /sys
+mount -t devpts devpts /dev/pts
+
+echo "{{ primary_encrypted_volume_name }} UUID={{ primary_encrypted_volume_partition_uuid }} none luks,discard" >> /etc/crypttab
+
+update-initramfs -k all -c
+update-grub

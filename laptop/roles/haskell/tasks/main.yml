@@ -1,0 +1,14 @@
+- name: Create target directory
+  file: path=/tmp/ansible/packages state=directory
+
+- name: Download haskell stack file
+  get_url:
+    url="https://get.haskellstack.org"
+    dest="/tmp/ansible/packages/haskell_stack"
+
+- name: Install haskell stack
+  command: "sh /tmp/ansible/packages/haskell_stack -f"
+
+- name: Remove haskell stack file
+  file: path="/tmp/ansible/packages/haskell_stack" state=absent
+

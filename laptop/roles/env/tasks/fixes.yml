@@ -1,0 +1,7 @@
+- name: Add fixes.sh
+  copy:
+    src: fixes.sh
+    dest: "{{ target_user_home_directory }}/fixes.sh"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    mode: 0755

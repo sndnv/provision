@@ -1,0 +1,45 @@
+- name: Retrieve partition information for primary device {{ primary_device }}
+  become: yes
+  parted: device="{{ primary_device }}" unit=MiB
+  register: primary_part_info
+
+- name: Delete existing partitions on primary device {{ primary_device }}
+  become: yes
+  parted:
+    device: "{{ primary_device }}"
+    number: "{{ item.num }}"
+    state: absent
+  with_items:
+   - "{{ primary_part_info.partitions }}"
+
+- name: Create efi partition on primary devivce {{ primary_device }}
+  become: yes
+  parted:
+    device: "{{ primary_device }}"
+    flags: [esp]
+    number: 1
+    part_start: 1MiB
+    part_end: 769MiB
+    part_type: primary
+    state: present
+
+- name: Create boot partition on primary devivce {{ primary_device }}
+  become: yes
+  parted:
+    device: "{{ primary_device }}"
+    flags: [boot]
+    number: 2
+    part_start: 769MiB
+    part_end: 1537MiB
+    part_type: primary
+    state: present
+
+- name: Create root partition on primary devivce {{ primary_device }}
+  become: yes
+  parted:
+    device: "{{ primary_device }}"
+    number: 3
+    part_start: 1537MiB
+    part_end: 100%
+    part_type: primary
+    state: present

@@ -1,0 +1,17 @@
+- name: Create encrypted volume on {{ secondary_volume_target }}
+  become: yes
+  shell: "cryptsetup luksFormat --batch-mode --hash={{ hash }} --key-size={{ key_size }} --cipher={{ cipher }} {{ secondary_volume_target }} --key-file {{ encryption_keyfile }}"
+
+- name: Open volume {{ secondary_volume_target }} as {{ secondary_volume_name }}
+  become: yes
+  shell: "cryptsetup luksOpen {{ secondary_volume_target }} {{ secondary_volume_name }} --key-file {{ encryption_keyfile }}"
+
+- name: Set secondary encrypted volume /dev/mapper/{{ secondary_volume_name }}
+  set_fact:
+    secondary_encrypted_volume: "/dev/mapper/{{ secondary_volume_name }}"
+
+- name: Create filesystem on {{ secondary_encrypted_volume }}
+  become: yes
+  filesystem:
+    fstype: ext4
+    dev: "{{ secondary_encrypted_volume }}"

@@ -1,0 +1,4 @@
+- include: primary.yml
+
+- include: secondary.yml
+  when: with_secondary_device

@@ -1,0 +1,40 @@
+- name: Create NAS mount directories
+  become: yes
+  file:
+    path: "{{ nas_mount_target }}/{{ item }}"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    state: directory
+  with_items:
+    - media
+    - public
+    - backups
+
+- name: Add .cifs_credentials
+  template:
+    src: cifs_credentials.j2
+    dest: "{{ target_user_home_directory }}/.cifs_credentials"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    mode: 0600
+
+- name: Mount NAS filesystems
+  become: yes
+  mount:
+    path: "{{ nas_mount_target }}/{{ item }}"
+    src: "//{{ nas_hostname }}/{{ item }}"
+    fstype: cifs
+    opts: "credentials={{ target_user_home_directory }}/.cifs_credentials,uid={{ target_user }},gid={{ target_user }},rw"
+    state: present
+  with_items:
+    - media
+    - public
+    - backups
+
+- name: Create link to NAS media
+  file:
+    src: "{{ nas_mount_target }}/media"
+    dest: "{{ target_user_home_directory }}/media"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+    state: link

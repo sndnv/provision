@@ -1,0 +1,37 @@
+- name: Create a volume group on {{ primary_encrypted_volume }}
+  become: yes
+  lvg:
+    vg: vg_root
+    pvs: "{{ primary_encrypted_volume }}"
+    state: present
+
+- name: Create swap volume on {{ primary_encrypted_volume }} / vg_root
+  become: yes
+  lvol:
+    vg: vg_root
+    lv: swap
+    size: "{{ root_vg_swap_size }}"
+    state: present
+
+- name: Create root volume on {{ primary_encrypted_volume }} / vg_root
+  become: yes
+  lvol:
+    vg: vg_root
+    lv: root
+    size: "{{ root_vg_root_size }}"
+    state: present
+
+- name: Create home volume on {{ primary_encrypted_volume }} / vg_root
+  become: yes
+  lvol:
+    vg: vg_root
+    lv: home
+    size: "{{ root_vg_home_size }}"
+    state: present
+  when: with_home_volume
+
+- name: Set facts for primary volume {{ primary_volume_name }}
+  set_fact:
+    actual_root_volume: "/dev/vg_root/root"
+    actual_swap_volume: "/dev/vg_root/root"
+    actual_home_volume: "/dev/vg_root/home"

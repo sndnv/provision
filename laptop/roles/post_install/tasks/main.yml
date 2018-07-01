@@ -1,0 +1,56 @@
+- name: Create chroot mount directory
+  become: yes
+  file:
+    path: "{{ chroot_directory }}"
+    state: directory
+
+- name: Mount root volume
+  become: yes
+  mount:
+    path: "{{ chroot_directory }}"
+    src: "{{ actual_root_volume }}"
+    fstype: auto
+    state: mounted
+
+- name: Mount boot volume
+  become: yes
+  mount:
+    path: "{{ chroot_directory }}/boot"
+    src: "{{ primary_device }}2"
+    fstype: auto
+    state: mounted
+
+- name: Mount efi volume
+  become: yes
+  mount:
+    path: "{{ chroot_directory }}/boot/efi"
+    src: "{{ primary_device }}1"
+    fstype: auto
+    state: mounted
+
+- name: Mount /dev
+  become: yes
+  shell: "mount --bind /dev {{ chroot_directory }}/dev"
+  warn: False
+
+- name: Mount /run/lvm
+  become: yes
+  shell: "mount --bind /run/lvm {{ chroot_directory }}/run/lvm"
+  warn: False
+
+- name: Add chroot script
+  become: yes
+  template:
+    src: finalize_install.sh.j2
+    dest: "{{ chroot_directory }}/finalize_install.sh"
+    mode: 0755
+
+- name: Chroot and start finalizing script
+  become: yes
+  shell: "chroot {{ chroot_directory }} /finalize_install.sh"
+
+- name: Remove chroot script
+  become: yes
+  file:
+    path: "{{ chroot_directory }}/finalize_install.sh"
+    state: absent

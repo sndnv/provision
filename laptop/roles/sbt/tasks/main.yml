@@ -1,0 +1,18 @@
+- name: Add sbt key
+  become: yes
+  apt_key: keyserver='hkp://keyserver.ubuntu.com:80' id='2EE0EA64E40A89B84B2DF73499E82A75642AC823'
+
+- name: Add sbt repo
+  become: yes
+  apt_repository:
+    repo: deb https://dl.bintray.com/sbt/debian /
+
+- name: Update apt cache
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: Install sbt
+  become: yes
+  apt: pkg=sbt
+

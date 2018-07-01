@@ -1,0 +1,23 @@
+- name: Create target directory
+  file: path=/tmp/ansible/packages state=directory
+
+- name: Download intellij package
+  get_url:
+    url="https://data.services.jetbrains.com/products/download?platform=linux&code=IIC"
+    dest="/tmp/ansible/packages/intellij"
+
+- name: Create intellij directory
+  file:
+    path: "/home/{{ target_user }}/intellij"
+    owner: "{{ target_3user }}"
+    group: "{{ target_user }}"
+    state: directory
+
+- name: Install intellij
+  unarchive:
+    src: "/tmp/ansible/packages/intellij"
+    dest: "/home/{{ target_user }}/intellij"
+    extra_opts: [--strip-components=1]
+
+- name: Remove intellij package
+  file: path="/tmp/ansible/packages/intellij" state=absent

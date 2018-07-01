@@ -1,0 +1,23 @@
+- name: Retrieve partition information for secondary device {{ secondary_device }}
+  become: yes
+  parted: device="{{ secondary_device }}" unit=MiB
+  register: secondary_part_info
+
+- name: Delete existing partitions on secondary device {{ secondary_device }}
+  become: yes
+  parted:
+    device: "{{ secondary_device }}"
+    number: "{{ item.num }}"
+    state: absent
+  with_items:
+   - "{{ secondary_part_info.partitions }}"
+
+- name: Create partition on secondary devivce {{ secondary_device }}
+  become: yes
+  parted:
+    device: "{{ secondary_device }}"
+    number: 1
+    part_start: 0%
+    part_end: 100%
+    part_type: primary
+    state: present

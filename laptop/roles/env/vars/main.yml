@@ -1,0 +1,11 @@
+
+target_user_home_directory: "/home/{{ target_user }}"
+
+extra_bashrc_lines: "{{ lookup('file', 'extra_bashrc') }}"
+extra_profile_lines: "{{ lookup('file', 'extra_profile') }}"
+extra_vimrc_lines: "{{ lookup('file', 'extra_vimrc') }}"
+
+secondary_encrypted_volume_partition: "{{ secondary_volume_partition }}"
+secondary_encrypted_volume_keyfile: "/root/{{ secondary_volume_name }}_keyfile"
+
+temporary_home_mount: /mnt/tmp_home

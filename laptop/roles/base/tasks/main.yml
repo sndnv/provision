@@ -1,0 +1,32 @@
+- name: Update apt cache
+  become: yes
+  apt:
+    update_cache: yes
+    cache_valid_time: 1800
+
+- name: Upgrade all packages
+  become: yes
+  apt:
+    upgrade: dist
+
+- name: Install packages
+  become: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - curl
+    - vlc
+    - caffeine
+    - transmission
+    - cifs-utils
+    - playonlinux
+    - build-essential
+    - openjdk-8-jdk
+    - maven
+    - steam
+    - rsync
+
+- name: Remove unused dependencies
+  become: yes
+  apt:
+    autoremove: yes
+

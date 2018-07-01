@@ -1,0 +1,8 @@
+- include: primary.yml
+
+- include: secondary.yml
+  when: with_secondary_device
+
+- name: Remove keyfile
+  become: yes
+  file: path="{{ encryption_keyfile }}" state=absent
