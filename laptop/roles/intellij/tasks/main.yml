@@ -9,7 +9,7 @@
 - name: Create intellij directory
   file:
     path: "/home/{{ target_user }}/intellij"
-    owner: "{{ target_3user }}"
+    owner: "{{ target_user }}"
     group: "{{ target_user }}"
     state: directory
 
