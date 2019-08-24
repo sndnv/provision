@@ -14,19 +14,26 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - curl
-    - vlc
     - caffeine
     - transmission
     - cifs-utils
     - playonlinux
     - build-essential
-    - openjdk-8-jdk
+    - openjdk-11-jdk
     - maven
     - steam
     - rsync
+    - snapd
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-compose
+    - virtualbox
+    - virtualbox-ext-pack
+    - virtualbox-qt
+    - vagrant
 
 - name: Remove unused dependencies
   become: yes
   apt:
     autoremove: yes
-

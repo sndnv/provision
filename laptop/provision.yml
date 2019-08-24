@@ -16,12 +16,10 @@
   roles:
     - { role: base }
     - { role: env }
+    - { role: snaps }
     - { role: chrome }
-    - { role: veracrypt }
-    - { role: docker }
     - { role: sbt }
     - { role: gradle }
     - { role: elixir }
     - { role: haskell }
     - { role: rust }
-    - { role: intellij }

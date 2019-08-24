@@ -1,0 +1,5 @@
+- name: Install bitwarden, vlc and postman
+  command: snap install bitwarden vlc postman
+
+- name: Install vscode and intellij
+  command: snap install --classic code intellij-idea-community

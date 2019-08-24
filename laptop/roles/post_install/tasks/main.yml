@@ -31,12 +31,10 @@
 - name: Mount /dev
   become: yes
   shell: "mount --bind /dev {{ chroot_directory }}/dev"
-  warn: False
 
 - name: Mount /run/lvm
   become: yes
   shell: "mount --bind /run/lvm {{ chroot_directory }}/run/lvm"
-  warn: False
 
 - name: Add chroot script
   become: yes

@@ -14,11 +14,8 @@ fi
 
 echo ">: Installing git and ansible..."
 sudo apt update
-sudo apt install software-properties-common -y
-sudo apt-add-repository ppa:ansible/ansible -y
-sudo apt update
-sudo apt install git -y
-sudo apt install ansible -y
+sudo apt install git python3 python3-pip python3-setuptools -y
+sudo pip3 install ansible=2.7.11
 
 echo ">: Pulling ansible provisioning/bootstrap..."
 bootstrap_directory="/tmp/bootstrap"
