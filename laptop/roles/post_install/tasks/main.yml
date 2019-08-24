@@ -16,7 +16,7 @@
   become: yes
   mount:
     path: "{{ chroot_directory }}/boot"
-    src: "{{ primary_device }}{{ primary_device_partition_prefix }}2"
+    src: "{{ primary_device }}{{ primary_device_partition_prefix }}{{ primary_device_boot_partition_number }}"
     fstype: auto
     state: mounted
 
@@ -24,9 +24,10 @@
   become: yes
   mount:
     path: "{{ chroot_directory }}/boot/efi"
-    src: "{{ primary_device }}{{ primary_device_partition_prefix }}1"
+    src: "{{ primary_device }}{{ primary_device_partition_prefix }}{{ primary_device_efi_partition_number }}"
     fstype: auto
     state: mounted
+  when: with_efi
 
 - name: Mount /dev
   become: yes

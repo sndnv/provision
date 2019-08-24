@@ -14,6 +14,7 @@
     secondary_device_partition_prefix: "{{ 'p' if secondary_device.find('nvme') != -1 else '' }}"
     with_home_volume: not((root_vg_home_size|trim == '') or (root_vg_root_size|trim == '100%FREE'))
     with_secondary_device: not((secondary_device is undefined) or (secondary_device is none) or (secondary_device|trim == '') or (secondary_device|trim == 'skip'))
+    with_efi: "{{ lookup('env', 'efi_enabled') == 'yes' }}"
 
   roles:
     - { role: partition }

@@ -21,8 +21,8 @@ chmod +x pull.sh
 ***Based on: https://askubuntu.com/questions/733488/lvm-luks-manual-partitioned-but-issues-with-loader-init-grub/893906#893906***
 
 * Set filesystems and mount points for all `/dev/mapper/vg_root-*` devices
-* Set `/dev/sdX1` as `efi`
-* Set `/dev/sdX2` as `ext4` and `/boot`
+* Set `/dev/sdX1` as `efi` (EFI only)
+* Set `/dev/sdX2` (EFI) or `/dev/sdX1` (non-EFI) as `ext4` and `/boot`
 * Set *Device for boot load installation* to be `/dev/sdX1`
 
 ### Windows Partition Setup:
