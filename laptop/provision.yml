@@ -19,8 +19,4 @@
     - { role: snaps }
     - { role: chrome }
     - { role: sbt }
-    - { role: gradle }
-    - { role: elixir }
-    - { role: haskell }
-    - { role: rust }
     - { role: docker }

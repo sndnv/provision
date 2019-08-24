@@ -28,3 +28,22 @@
     - docker-ce-cli
     - containerd.io
     - docker-compose
+
+- name: Create docker group
+  become: yes
+  group:
+    name: docker
+    state: present
+
+- name: Add user to docker group
+  become: yes
+  user:
+    name: "{{ target_user }}"
+    groups: docker
+    append: yes
+
+- name: Enable docker service
+  become: yes
+  systemd:
+    name: docker
+    enabled: yes
