@@ -1,5 +1,5 @@
 primary_volume_name: "root_crypt"
-primary_volume_target: "{{ primary_device }}{{ primary_device_partition_prefix }}3"
+primary_volume_target: "{{ primary_device }}{{ primary_device_partition_prefix }}{{ primary_device_root_partition_number }}"
 
 secondary_volume_name: "{{ secondary_device_type }}_crypt"
 secondary_volume_target: "{{ secondary_device }}{{ secondary_device_partition_prefix }}1"

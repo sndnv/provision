@@ -1,0 +1,6 @@
+efi_partition_number: 1
+boot_partition_number: "{{ 2 if with_efi else 1 }}"
+root_partition_number: "{{ 3 if with_efi else 2 }}"
+
+system_partition_offset: 1 # in MBs
+system_partition_size: 768 # in MBs; for both boot and efi

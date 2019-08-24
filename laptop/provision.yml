@@ -17,6 +17,5 @@
     - { role: base }
     - { role: env }
     - { role: snaps }
-    - { role: chrome }
     - { role: sbt }
     - { role: docker }

@@ -17,20 +17,21 @@
   parted:
     device: "{{ primary_device }}"
     flags: [esp]
-    number: 1
-    part_start: 1MiB
-    part_end: 769MiB
+    number: "{{ efi_partition_number }}"
+    part_start: "{{ system_partition_offset }}MiB"
+    part_end: "{{ system_partition_offset + system_partition_size }}MiB"
     part_type: primary
     state: present
+  when: with_efi
 
 - name: Create boot partition on primary devivce {{ primary_device }}
   become: yes
   parted:
     device: "{{ primary_device }}"
     flags: [boot]
-    number: 2
-    part_start: 769MiB
-    part_end: 1537MiB
+    number: "{{ boot_partition_number }}"
+    part_start: "{{ system_partition_offset + ((boot_partition_number | int - 1) * system_partition_size) }}MiB"
+    part_end: "{{ system_partition_offset + (boot_partition_number | int * system_partition_size) }}MiB"
     part_type: primary
     state: present
 
@@ -38,8 +39,14 @@
   become: yes
   parted:
     device: "{{ primary_device }}"
-    number: 3
-    part_start: 1537MiB
+    number: "{{ root_partition_number }}"
+    part_start: "{{ system_partition_offset + (boot_partition_number | int * system_partition_size) }}MiB"
     part_end: 100%
     part_type: primary
     state: present
+
+- name: Set facts for primary device {{ primary_device }}
+  set_fact:
+    primary_device_efi_partition_number: "{{ efi_partition_number }}"
+    primary_device_boot_partition_number: "{{ boot_partition_number }}"
+    primary_device_root_partition_number: "{{ root_partition_number }}"
