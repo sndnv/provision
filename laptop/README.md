@@ -1,22 +1,25 @@
-### Download and run bootstrap:
+# Provisioning
+
+## 1. Start Live CD/USB
+
+Once you have a live CD/USB, boot into it and start a terminal.
+
+## 2. Download and run bootstrap
 
 ```bash
 wget https://raw.githubusercontent.com/sndnv/provision/master/laptop/pull.sh
 chmod +x pull.sh
-. pull.sh [--with-sshpass]
+. pull.sh # note: it is <dot> <space> and the script name, and NOT <dot> <slash> and the script name
 ./bootstrap.sh
 ```
 
-### Download and run provision:
+## 3. Configure Installation
 
-```bash
-wget https://raw.githubusercontent.com/sndnv/provision/master/laptop/pull.sh
-chmod +x pull.sh
-. pull.sh
-./provision.sh
-```
+As part of the bootstrap process, the usual OS installer will be started. Configure it as desired, until the
+partitioning step. By default, the installer will ask you to "Erase and install" but, instead, the partitioning
+should be customized as follows:
 
-### Linux Partition Boot Setup:
+### Linux Partition Boot Setup
 
 ***Based on: https://askubuntu.com/questions/733488/lvm-luks-manual-partitioned-but-issues-with-loader-init-grub/893906#893906***
 
@@ -24,6 +27,19 @@ chmod +x pull.sh
 * Set `/dev/sdX1` as `efi` (EFI only)
 * Set `/dev/sdX2` (EFI) or `/dev/sdX1` (non-EFI) as `ext4` and `/boot`
 * Set *Device for boot load installation* to be `/dev/sdX1`
+
+
+## 4. Finalize boostrap and Restart
+
+After the installation is done, the installer will ask you to restart; skip that for now so that the bootstrap process can be finalized.
+
+## 5. Download and run provision:
+
+```bash
+wget https://raw.githubusercontent.com/sndnv/provision/master/laptop/pull.sh
+chmod +x pull.sh
+. pull.sh # note: it is <dot> <space> and the script name, and NOT <dot> <slash> and the script name
+./provision.sh
 
 ### Windows Partition Setup:
 

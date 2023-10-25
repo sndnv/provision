@@ -11,9 +11,6 @@
   shell: "blkid {{ primary_volume_target }} -o value -s UUID"
   register: blkid_output
 
-- name: Get primary volume partition UUID
-  set_fact:
-
 - name: Set facts for primary volume {{ primary_volume_name }}
   set_fact:
     primary_encrypted_volume: "/dev/mapper/{{ primary_volume_name }}"

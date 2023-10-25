@@ -1,0 +1,26 @@
+- name: Add flathub repo
+  command: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+- name: Install Bitwarden
+  command: flatpak install flathub com.bitwarden.desktop -y
+  ignore_errors: yes
+
+- name: Install VLC
+  command: flatpak install flathub org.videolan.VLC -y
+  ignore_errors: yes
+
+- name: Install Plex
+  command: flatpak install flathub tv.plex.PlexDesktop -y
+  ignore_errors: yes
+
+- name: Install vscode
+  command: flatpak install flathub com.visualstudio.code -y
+  ignore_errors: yes
+
+- name: Install IntelliJ
+  command: flatpak install flathub com.jetbrains.IntelliJ-IDEA-Community -y
+  ignore_errors: yes
+
+- name: Install Android Studio
+  command: flatpak install flathub com.google.AndroidStudio -y
+  ignore_errors: yes
