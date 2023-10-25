@@ -1,0 +1,25 @@
+- name: Install SDKMAN
+  become: no
+  shell: "curl -s 'https://get.sdkman.io' | bash"
+  args:
+    executable: /bin/bash
+
+- name: Add SDK Man to bash_profile
+  lineinfile:
+    path: "{{ user_home }}/.bash_profile"
+    line: source "$HOME/.sdkman/bin/sdkman-init.sh"
+    state: present
+    create: yes
+
+- name: Install Java 17
+  become: no
+  shell: "source {{ user_home }}/.bash_profile && sdk install java $(sdk list java | grep -o '\\b17\\.[0-9]*\\.[0-9]*\\-tem' | head -1)"
+  args:
+    executable: /bin/bash
+
+
+- name: Install sbt
+  become: no
+  shell: "source {{ user_home }}/.bash_profile && sdk install sbt"
+  args:
+    executable: /bin/bash

@@ -19,15 +19,10 @@
     - cifs-utils
     - playonlinux
     - build-essential
-    - openjdk-11-jdk
     - maven
     - steam
     - rsync
-    - snapd
-    - virtualbox
-    - virtualbox-ext-pack
-    - virtualbox-qt
-    - vagrant
+    - flatpak
 
 - name: Remove unused dependencies
   become: yes

@@ -106,9 +106,11 @@ if [[ ${params["secondary_volume_type"]} != "skip" ]]; then
     echo -n "${params["encryption_password"]}" | sudo dd of=${encryption_keyfile} status=none
 fi
 
+ubuntu_codename=$(grep -ioP '^UBUNTU_CODENAME=\K.+' /etc/os-release)
+
 ansible-playbook \
     provision.yml \
-    --ask-sudo-pass \
+    --ask-become-pass \
     --extra-vars "target_user=${params['target_user']} \
                   target_user_full_name=${params['target_user_full_name']} \
                   nas_name=${params["nas_name"]} \
@@ -118,7 +120,8 @@ ansible-playbook \
                   secondary_volume_type=${params["secondary_volume_type"]} \
                   secondary_volume_name=${params["secondary_volume_name"]} \
                   secondary_volume_partition=${params["secondary_volume_partition"]} \
-                  encryption_keyfile=${encryption_keyfile}"
+                  encryption_keyfile=${encryption_keyfile} \
+                  ubuntu_codename=${ubuntu_codename}"
 
 if [[ ${params["secondary_volume_type"]} != "skip" ]]; then
     echo ">: Removing temporary encryption keyfile for secondary volume: [${encryption_keyfile}]..."

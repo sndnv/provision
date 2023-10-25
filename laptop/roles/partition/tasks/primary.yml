@@ -12,7 +12,7 @@
   with_items:
    - "{{ primary_part_info.partitions }}"
 
-- name: Create efi partition on primary devivce {{ primary_device }}
+- name: Create efi partition on primary device {{ primary_device }}
   become: yes
   parted:
     device: "{{ primary_device }}"
@@ -24,7 +24,7 @@
     state: present
   when: with_efi
 
-- name: Create boot partition on primary devivce {{ primary_device }}
+- name: Create boot partition on primary device {{ primary_device }}
   become: yes
   parted:
     device: "{{ primary_device }}"
@@ -35,7 +35,7 @@
     part_type: primary
     state: present
 
-- name: Create root partition on primary devivce {{ primary_device }}
+- name: Create root partition on primary device {{ primary_device }}
   become: yes
   parted:
     device: "{{ primary_device }}"

@@ -9,6 +9,7 @@
     - media
     - public
     - backups
+    - virtualbox
 
 - name: Add .cifs_credentials
   template:
@@ -30,6 +31,7 @@
     - media
     - public
     - backups
+    - virtualbox
 
 - name: Create link to NAS media
   file:

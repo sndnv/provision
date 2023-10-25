@@ -2,20 +2,11 @@
 - hosts: localhost
 
   vars:
-    target_user: "{{ lookup('env', 'target_user') }}"
-    target_user_full_name: "{{ lookup('env', 'target_user_full_name') }}"
-    nas_name: "{{ lookup('env', 'nas_name') }}"
-    nas_hostname: "{{ lookup('env', 'nas_hostname') }}"
-    nas_mount_target: "{{ lookup('env', 'nas_mount_target') }}"
-    cifs_user: "{{ lookup('env', 'cifs_user') }}"
-    secondary_volume_name: "{{ lookup('env', 'secondary_volume_name') }}"
-    secondary_volume_type: "{{ lookup('env', 'secondary_volume_type') }}"
-    secondary_volume_partition: "{{ lookup('env', 'secondary_volume_partition') }}"
-    encryption_keyfile: "{{ lookup('env', 'encryption_keyfile') }}"
+    user_home: "{{ lookup('env', 'HOME') }}"
 
   roles:
     - { role: base }
     - { role: env }
-    - { role: snaps }
-    - { role: sbt }
+    - { role: flatpacks }
+    - { role: sdkman }
     - { role: docker }

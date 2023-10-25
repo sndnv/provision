@@ -8,7 +8,6 @@ declare -a params_list=(
     "secondary_device_type"
     "secondary_device"
     "efi_enabled"
-    "root_vg_swap_size"
     "root_vg_root_size"
     "root_vg_home_size"
     "encryption_password"
@@ -21,7 +20,6 @@ param_descriptions=(
     ["secondary_device_type"]="Secondary device type [home|data|skip]"
     ["secondary_device"]="Secondary device (path to device, 'skip' or '')"
     ["efi_enabled"]="EFI enabled (yes/no)?"
-    ["root_vg_swap_size"]="Partition [swap] size on root VG (with units [bBsSkKmMgGtTpPeE])"
     ["root_vg_root_size"]="Partition [root] size on root VG (with units [bBsSkKmMgGtTpPeE])"
     ["root_vg_home_size"]="Partition [home] size on root VG (with units [bBsSkKmMgGtTpPeE])"
     ["encryption_password"]="Encryption password"
@@ -39,7 +37,6 @@ defaults () {
         ["secondary_device_type"]="skip"
         ["secondary_device"]=$([[ ${params["secondary_device_type"]} = "skip" ]] && echo "skip" || echo "")
         ["efi_enabled"]="yes"
-        ["root_vg_swap_size"]="${total_memory}g"
         ["root_vg_root_size"]=$([[ ${params["secondary_device_type"]} != "home" ]] && echo "60g" || echo "100%FREE")
         ["root_vg_home_size"]=$([[ ${params["secondary_device_type"]} != "home" ]] && echo "100%FREE" || echo "")
     )
@@ -83,7 +80,6 @@ echo
 echo -e ">: Device [${params['primary_device']}]:"
 echo -e ">: \t Delete and recreate: \t yes"
 echo -e ">: \t EFI enabled: \t\t ${params['efi_enabled']}"
-echo -e ">: \t Swap volume size: \t ${params['root_vg_swap_size']}"
 echo -e ">: \t Root volume size: \t ${params['root_vg_root_size']}"
 echo -e ">: \t Home volume size: \t ${params['root_vg_home_size']:-<none>}"
 echo
@@ -126,7 +122,6 @@ ansible-playbook \
                   secondary_device=${params['secondary_device']} \
                   secondary_device_type=${params['secondary_device_type']} \
                   efi_enabled=${params['efi_enabled']} \
-                  root_vg_swap_size=${params['root_vg_swap_size']} \
                   root_vg_root_size=${params['root_vg_root_size']} \
                   root_vg_home_size=${params['root_vg_home_size']} \
                   encryption_keyfile=${encryption_keyfile} \
