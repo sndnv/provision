@@ -40,6 +40,7 @@ wget https://raw.githubusercontent.com/sndnv/provision/master/laptop/pull.sh
 chmod +x pull.sh
 . pull.sh # note: it is <dot> <space> and the script name, and NOT <dot> <slash> and the script name
 ./provision.sh
+```
 
 ### Windows Partition Setup:
 
