@@ -1,4 +1,4 @@
-- include: primary.yml
+- include_tasks: primary.yml
 
-- include: secondary.yml
+- include_tasks: secondary.yml
   when: with_secondary_device

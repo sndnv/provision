@@ -1,16 +1,16 @@
-- include: repos.yml
+- include_tasks: repos.yml
 
-- include: config.yml
+- include_tasks: config.yml
 
-- include: fixes.yml
+- include_tasks: fixes.yml
 
-- include: nas.yml
+- include_tasks: nas.yml
 
-- include: hdd_crypttab.yml
+- include_tasks: hdd_crypttab.yml
   when: (secondary_volume_type == 'data') or (secondary_volume_type == 'home')
 
-- include: hdd_data.yml
+- include_tasks: hdd_data.yml
   when: secondary_volume_type == 'data'
 
-- include: hdd_home.yml
+- include_tasks: hdd_home.yml
   when: secondary_volume_type == 'home'
